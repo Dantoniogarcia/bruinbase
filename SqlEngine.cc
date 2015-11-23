@@ -84,8 +84,8 @@ RC SqlEngine::run(FILE* commandline)
   nonleaf1.locateChildPtr(5,nonLeafPid);
   cout<<nonLeafPid<<endl;
   */
-  
-/*  BTreeIndex index;
+  //test case of one node for BTreeIndex
+  BTreeIndex index;
   string name = "antonio4.txt";
   RecordId ss;
   ss.pid = 3;
@@ -96,7 +96,7 @@ RC SqlEngine::run(FILE* commandline)
   RC shit = index.insert(1,ss);
   cout<<"Not here 1"<<endl;
   index.printTree();
-  index.close();*/
+  index.close();
   fprintf(stdout, "Bruinbase> ");
   // set the command line input and start parsing user input
   sqlin = commandline;
