@@ -84,16 +84,16 @@ RC SqlEngine::run(FILE* commandline)
   nonleaf1.locateChildPtr(5,nonLeafPid);
   cout<<nonLeafPid<<endl;
   */
-  //test case of one node for BTreeIndex
+  
   BTreeIndex index;
   string name = "antonio4.txt";
   RecordId ss;
-  ss.pid = 3;
-  ss.sid = 1;
+  ss.pid = 0;
+  ss.sid = 0;
   index.open(name,'w');
   cout<<"1" <<endl;
   cout<<"stupid"<<endl;
-  RC shit = index.insert(1,ss);
+  index.insert(1,ss);
   cout<<"Not here 1"<<endl;
   index.printTree();
   index.close();

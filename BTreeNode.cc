@@ -63,7 +63,7 @@ RC BTLeafNode::write(PageId pid, PageFile& pf)
 { 
 	//cout<<"Error Here"<<endl;
 	int code = pf.write(pid, buffer); // this writes from the buffer to the page at pid
-	cout<<code<<endl;
+	cout<<"write code: " << code<<endl;
 	return code;  
 }
 /*
@@ -465,7 +465,7 @@ RC BTNonLeafNode::locateChildPtr(int searchKey, PageId& pid)
 	for(int i = size + sizeof(PageId); i<PageFile::PAGE_SIZE; i+=size)
 	{
 		memcpy(&key1, buffer + i, sizeof(int));
-		//cout<< "KEY: "<<key1<<endl;
+		cout<< "KEY: "<<key1<<endl;
 		if(searchKey < key1 || searchKey == key1)
 		{
 			memcpy(&pid, buffer + i + sizeof(int), sizeof(PageId));
@@ -494,7 +494,7 @@ RC BTNonLeafNode::initializeRoot(PageId pid1, int key, PageId pid2)
 
 void BTNonLeafNode::printNode()
 {
-	/*int key;
+	int key;
 	PageId pid;
 	int size = sizeof(int) + sizeof(PageId);
 	for(int i = size + sizeof(PageId); i <PageFile::PAGE_SIZE; i+=size)
@@ -508,6 +508,6 @@ void BTNonLeafNode::printNode()
 		cout<<"Key: "<< key<<endl;
 		cout<<"PageID: "<<pid<<endl;
 		cout<<endl;
-	}*/
+	}
 	
 }

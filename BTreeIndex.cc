@@ -22,7 +22,7 @@ BTreeIndex::BTreeIndex()
 	
     rootPid = -1;
 	treeHeight = 0;
-	//std::fill(buffer,buffer + PageFile::PAGE_SIZE,0);
+	std::fill(buffer,buffer + PageFile::PAGE_SIZE,0);
 	/*for(int i =0; i<PageFile::PAGE_SIZE; i++)
 	{
 		memcpy(buffer + i, &r, sizeof(RecordId)); //inputing the sizeof(RecordId) into the buffer
@@ -58,20 +58,24 @@ RC BTreeIndex::open(const string& indexname, char mode)
 			return check;
 		}
 		memcpy(&rootPid, buffer, sizeof(PageId));// stored the root pid in the first node
+		cout<<"RootPid: " << rootPid << endl;
 		memcpy(&treeHeight, buffer + sizeof(PageId), sizeof(int)); //stored the second root pid in the second node
+		cout<<"treeheight :" << treeHeight << endl;
 	}
 	else
 	{
-		//cout << "yeee"<<endl;
+		cout << "yeee"<<endl;
 		rootPid = -1;
 		treeHeight = 0;
 		
-		//not sure, maybe I should close the file
+		//not sue, maybe I should close the file
 		//if(pf.write(0,buffer) == 0)
 			//cout<<"ok"<<endl;
 	}
     return 0;
 }
+
+
 
 /*
  * Close the index file.
@@ -83,6 +87,7 @@ RC BTreeIndex::close()
 	memcpy(buffer, &rootPid, sizeof(PageId));
 	memcpy(buffer + sizeof(PageId), &treeHeight, sizeof(int));
 	RC t = pf.write(0, buffer);
+	pf.close();
 	if(t!=0)
 		return t;
 	else
@@ -95,6 +100,10 @@ RC BTreeIndex::close()
  * @param rid[IN] the RecordId for the record being inserted into the index
  * @return error code. 0 if no error
  */
+ /*if(pf.endPid() == 0)
+			rootPid =1;
+		else
+			rootPid = pf.endPid();*/
 RC BTreeIndex::insert(int key, const RecordId& rid)
 {
 	//first case/test case
@@ -103,11 +112,9 @@ RC BTreeIndex::insert(int key, const RecordId& rid)
 		BTLeafNode leaf1;
 		leaf1.insert(key, rid);
 		treeHeight = 1;
-		if(pf.endPid() == 0)
-			rootPid =1;
-		else
-			rootPid = pf.endPid();
-		//cout<<"Root PID: " <<rootPid<<endl;
+		//copy from above into here
+		rootPid = 1;
+		cout<<"Root PID: " <<rootPid<<endl;
 		return leaf1.write(rootPid, pf); //error is here
 	//	cout << "errorCode: " << errorCode<<endl;
 	//	cout<< "not herehere5"<<endl;
